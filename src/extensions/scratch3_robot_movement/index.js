@@ -89,15 +89,21 @@ class RobotMovementBlocks {
     };
 
     forward (args) {
-        if (typeof args.METERS === 'boolean')
-            return;
-        if (isNaN(Number(args.METERS)))
+        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS;
+        if (!Array.isArray(movement) || movement.length < 2 ||
+            typeof movement[0] === 'boolean' || typeof movement[1] === 'boolean')
             return;
 
+        const meters = Number(movement[0]);
+        const speed = Number(movement[1]);
+        if (!Number.isFinite(meters) || !Number.isFinite(speed))
+            return;
+        
         return new Promise((resolve) => {
             this.runtime.emit('ROBOT_FORWARD', {
-                msg: `Result: ${Number(args.METERS)}`,
-                meters: Number(args.METERS),
+                msg: `Result: ${meters}`,
+                meters,
+                speed,
                 time: Date.now(),
                 done: resolve
             });
@@ -105,15 +111,21 @@ class RobotMovementBlocks {
     };
 
     backward (args) {
-        if (typeof args.METERS === 'boolean')
+        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS;
+        if (!Array.isArray(movement) || movement.length < 2 ||
+            typeof movement[0] === 'boolean' || typeof movement[1] === 'boolean')
             return;
-        if (isNaN(Number(args.METERS)))
+
+        const meters = Number(movement[0]);
+        const speed = Number(movement[1]);
+        if (!Number.isFinite(meters) || !Number.isFinite(speed))
             return;
 
         return new Promise((resolve) => {
             this.runtime.emit('ROBOT_BACKWARD', {
-                msg: `Result: ${Number(args.METERS)}`,
-                meters: Number(args.METERS),
+                msg: `Result: ${meters}`,
+                meters,
+                speed,
                 time: Date.now(),
                 done: resolve
             });
