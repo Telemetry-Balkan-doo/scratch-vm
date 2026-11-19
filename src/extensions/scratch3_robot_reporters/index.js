@@ -88,8 +88,18 @@ class RobotReportsBlocks {
     };
 
     get_random_number(args) {
-        const max = 9;
-        const min = 1;
+        const rangeNumbers = JSON.parse(args.RANGE_SETTINGS)
+        
+        let max = rangeNumbers[0]
+        let min = rangeNumbers[1]
+
+        if (rangeNumbers[0] > rangeNumbers[1]) {
+            max = Number(rangeNumbers[0])
+            min = Number(rangeNumbers[1])
+        } else {
+            max = Number(rangeNumbers[1])
+            min = Number(rangeNumbers[0])
+        }
 
         const random_number = Math.floor(Math.random() * (max - min + 1)) + min;
 
