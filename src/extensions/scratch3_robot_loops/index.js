@@ -105,18 +105,26 @@ class RobotConditionsBlocks {
         };
     };
 
-    count (args, util) {
-        
+    count (args, util) {     
         const blocks = util.target.blocks;
         const currentBlock = blocks.getBlock(util.thread.peekStack());
         const cSlot = currentBlock.inputs.SUBSTACK;
 
-        console.log('count', blocks.opcode)
+        util.stackFrame.latestTime ??= Number(args.TIMES);
+        util.stackFrame.i ??= 0;
 
-        util.stackFrame.i ??= Number(args.TIMES);
-        if (util.stackFrame.i-- > 0) {
+        if (Number(args.TIMES) < util.stackFrame.latestTime) {
+            util.stackFrame.i = 0;
+        }
+        util.stackFrame.latestTime = Number(args.TIMES);
+        
+        if (util.stackFrame.i !== Number(args.TIMES)) {
+            
             if (!cSlot || !cSlot.block) return;
-            if (!cSlot?.block || !hasExecutableBlock(cSlot.block, blocks)) return;
+            if (!hasExecutableBlock(cSlot.block, blocks)) return;
+
+            util.stackFrame.i++;
+            
             util.startBranch(1, true);
             util.yieldTick();
         }
