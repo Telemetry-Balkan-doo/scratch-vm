@@ -106,8 +106,17 @@ class RobotConditionsBlocks {
     };
 
     count (args, util) {
+        
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
+
+        console.log('count', blocks.opcode)
+
         util.stackFrame.i ??= Number(args.TIMES);
         if (util.stackFrame.i-- > 0) {
+            if (!cSlot || !cSlot.block) return;
+            if (!cSlot?.block || !hasExecutableBlock(cSlot.block, blocks)) return;
             util.startBranch(1, true);
             util.yieldTick();
         }
@@ -115,3 +124,22 @@ class RobotConditionsBlocks {
 };
 
 module.exports = RobotConditionsBlocks;
+
+
+function hasExecutableBlock (blockId, blocks) {
+    while (blockId) {
+        const block = blocks.getBlock(blockId);
+        if (!block) return false;
+        if (['Loop_forever', 'Loop_while', 'Loop_count'].includes(block.opcode)) {
+            const substack = block.inputs.SUBSTACK;
+            if (substack?.block && hasExecutableBlock(substack.block, blocks)) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+
+        blockId = block.next;
+    }
+    return false;
+}
