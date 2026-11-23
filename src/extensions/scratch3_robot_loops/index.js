@@ -81,7 +81,6 @@ class RobotConditionsBlocks {
         if (args.CONDITION.trim() === "") return
 
         if (args.CONDITION === false || args.CONDITION === "false" || args.CONDITION === "0") return
-
         if (args.CONDITION === true || (typeof(args.CONDITION) === "string" && args.CONDITION !== "false") ) {
             util.startBranch(1, true);
             util.yieldTick();
