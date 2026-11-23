@@ -72,15 +72,20 @@ class RobotConditionsBlocks {
         const blocks = util.target.blocks;
         const currentBlock = blocks.getBlock(util.thread.peekStack());
         const cSlot = currentBlock.inputs.SUBSTACK;
+        
+        args.CONDITION = String(args.CONDITION);
 
         if (!cSlot || !cSlot.block) return;
         if (!hasExecutableBlock(cSlot.block, blocks)) return;
+
+        if (args.CONDITION.trim() === "") return
+
+        if (args.CONDITION === false || args.CONDITION === "false" || args.CONDITION === "0") return
 
         if (args.CONDITION === true || (typeof(args.CONDITION) === "string" && args.CONDITION !== "false") ) {
             util.startBranch(1, true);
             util.yieldTick();
         }
-        if (args.CONDITION === false || args.CONDITION === "false") return
     };
 
     count (args, util) {     
