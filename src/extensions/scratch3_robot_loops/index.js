@@ -1,3 +1,4 @@
+const { number } = require('format-message');
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 
@@ -105,7 +106,6 @@ class RobotConditionsBlocks {
         if (!hasExecutableBlock(cSlot.block, blocks)) return;
 
         if (condition.trim() === '') return;
-
         if (condition === 'false' || condition === '0') return;
 
         if (condition !== 'false') {
@@ -124,7 +124,7 @@ class RobotConditionsBlocks {
 
         util.stackFrame.i ??= 0;
 
-        if (util.stackFrame.i < Number(args.COUNT)) {
+        if (util.stackFrame.i < Number(args.TIMES)) {
             util.stackFrame.i++;
 
             util.startBranch(1, true);
