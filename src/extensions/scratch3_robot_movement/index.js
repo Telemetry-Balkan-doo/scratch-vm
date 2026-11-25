@@ -1,14 +1,13 @@
-const ArgumentType = require('../../extension-support/argument-type')
-const BlockType = require('../../extension-support/block-type')
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
 
 class RobotMovementBlocks {
-
     static get EXTENSION_ID () {
-        return 'Move'
+        return 'Move';
     }
 
     constructor (runtime) {
-        this.runtime = runtime
+        this.runtime = runtime;
     }
 
     getInfo () {
@@ -45,7 +44,7 @@ class RobotMovementBlocks {
                     arguments: {
                         ANGLE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Rotate left 90 degrees!'
+                            defaultValue: 0
                         }
                     }
                 },
@@ -56,7 +55,7 @@ class RobotMovementBlocks {
                     arguments: {
                         ANGLE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 'Rotate right 90 degrees!'
+                            defaultValue: 0
                         }
                     }
                 },
@@ -83,11 +82,11 @@ class RobotMovementBlocks {
                     }
                 }
             ]
-        }
+        };
     }
 
     forward (args) {
-        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS
+        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS;
 
         if (
             !Array.isArray(movement) ||
@@ -95,14 +94,14 @@ class RobotMovementBlocks {
             typeof movement[0] === 'boolean' ||
             typeof movement[1] === 'boolean'
         ) {
-            return
+            return;
         }
 
-        const meters = Number(movement[0])
-        const speed = Number(movement[1])
+        const meters = Number(movement[0]);
+        const speed = Number(movement[1]);
 
         if (!Number.isFinite(meters) || !Number.isFinite(speed)) {
-            return
+            return;
         }
 
         return new Promise(resolve => {
@@ -112,12 +111,12 @@ class RobotMovementBlocks {
                 speed,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 
     backward (args) {
-        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS
+        const movement = typeof args.METERS === 'string' ? JSON.parse(args.METERS) : args.METERS;
 
         if (
             !Array.isArray(movement) ||
@@ -125,14 +124,14 @@ class RobotMovementBlocks {
             typeof movement[0] === 'boolean' ||
             typeof movement[1] === 'boolean'
         ) {
-            return
+            return;
         }
 
-        const meters = Number(movement[0])
-        const speed = Number(movement[1])
+        const meters = Number(movement[0]);
+        const speed = Number(movement[1]);
 
         if (!Number.isFinite(meters) || !Number.isFinite(speed)) {
-            return
+            return;
         }
 
         return new Promise(resolve => {
@@ -142,37 +141,37 @@ class RobotMovementBlocks {
                 speed,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 
     degrees_left_90 (args) {
         return new Promise(resolve => {
             this.runtime.emit('ROBOT_ROTATE_LEFT_90', {
-                msg: `Result: ${args.TEXT}`,
+                msg: `Result: ${args.ANGLE}`,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 
     degrees_right_90 (args) {
         return new Promise(resolve => {
             this.runtime.emit('ROBOT_ROTATE_RIGHT_90', {
-                msg: `Result: ${args.TEXT}`,
+                msg: `Result: ${args.ANGLE}`,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 
     given_angle (args) {
         if (typeof args.ANGLE === 'boolean') {
-            return
+            return;
         }
 
         if (isNaN(Number(args.ANGLE))) {
-            return
+            return;
         }
 
         return new Promise(resolve => {
@@ -181,8 +180,8 @@ class RobotMovementBlocks {
                 angle: args.ANGLE,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 
     goal_pose (args) {
@@ -192,9 +191,9 @@ class RobotMovementBlocks {
                 label: args.LABEL,
                 time: Date.now(),
                 done: resolve
-            })
-        })
+            });
+        });
     }
 }
 
-module.exports = RobotMovementBlocks
+module.exports = RobotMovementBlocks;

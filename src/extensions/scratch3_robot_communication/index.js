@@ -39,11 +39,11 @@ class RobotcommunicationBlocks {
         };
     }
 
-    event_whenbroadcastreceived() {
-        return true
+    event_whenbroadcastreceived () {
+        return true;
     }
 
-    event_broadcast(args, util) {
+    event_broadcast (args, util) {
         util.runtime.startHats('Communication_event_whenbroadcastreceived', {CHOICE: args.CHOICE});
     }
 }

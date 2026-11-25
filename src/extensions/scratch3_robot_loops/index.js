@@ -1,5 +1,5 @@
-const ArgumentType = require('../../extension-support/argument-type')
-const BlockType = require('../../extension-support/block-type')
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
 
 /**
  * Checks whether a block or its nested blocks contain executable code.
@@ -9,34 +9,34 @@ const BlockType = require('../../extension-support/block-type')
  */
 const hasExecutableBlock = function (blockId, blocks) {
     while (blockId) {
-        const block = blocks.getBlock(blockId)
+        const block = blocks.getBlock(blockId);
 
-        if (!block) return false
+        if (!block) return false;
 
         if (['Loop_forever', 'Loop_while', 'Loop_count'].includes(block.opcode)) {
-            const substack = block.inputs.SUBSTACK
+            const substack = block.inputs.SUBSTACK;
 
             if (substack?.block && hasExecutableBlock(substack.block, blocks)) {
-                return true
+                return true;
             }
         } else {
-            return true
+            return true;
         }
 
-        blockId = block.next
+        blockId = block.next;
     }
 
-    return false
-}
+    return false;
+};
 
 class RobotConditionsBlocks {
 
     static get EXTENSION_ID () {
-        return 'Loop'
+        return 'Loop';
     }
 
     constructor (runtime) {
-        this.runtime = runtime
+        this.runtime = runtime;
     }
 
     getInfo () {
@@ -78,59 +78,59 @@ class RobotConditionsBlocks {
                     }
                 }
             ]
-        }
+        };
     }
 
     forever (args, util) {
-        const blocks = util.target.blocks
-        const currentBlock = blocks.getBlock(util.thread.peekStack())
-        const cSlot = currentBlock.inputs.SUBSTACK
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
 
-        if (!cSlot || !cSlot.block) return
-        if (!hasExecutableBlock(cSlot.block, blocks)) return
+        if (!cSlot || !cSlot.block) return;
+        if (!hasExecutableBlock(cSlot.block, blocks)) return;
 
-        util.startBranch(1, true)
-        util.yieldTick()
-        this.runtime.emit('FOREVER_LOOP', {})
+        util.startBranch(1, true);
+        util.yieldTick();
+        this.runtime.emit('FOREVER_LOOP', {});
     }
 
     while (args, util) {
-        const blocks = util.target.blocks
-        const currentBlock = blocks.getBlock(util.thread.peekStack())
-        const cSlot = currentBlock.inputs.SUBSTACK
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
 
-        const condition = String(args.CONDITION)
+        const condition = String(args.CONDITION);
 
-        if (!cSlot || !cSlot.block) return
-        if (!hasExecutableBlock(cSlot.block, blocks)) return
+        if (!cSlot || !cSlot.block) return;
+        if (!hasExecutableBlock(cSlot.block, blocks)) return;
 
-        if (condition.trim() === '') return
+        if (condition.trim() === '') return;
 
-        if (condition === 'false' || condition === '0') return
+        if (condition === 'false' || condition === '0') return;
 
         if (condition !== 'false') {
-            util.startBranch(1, true)
-            util.yieldTick()
+            util.startBranch(1, true);
+            util.yieldTick();
         }
     }
 
     count (args, util) {
-        const blocks = util.target.blocks
-        const currentBlock = blocks.getBlock(util.thread.peekStack())
-        const cSlot = currentBlock.inputs.SUBSTACK
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
 
-        if (!cSlot || !cSlot.block) return
-        if (!hasExecutableBlock(cSlot.block, blocks)) return
+        if (!cSlot || !cSlot.block) return;
+        if (!hasExecutableBlock(cSlot.block, blocks)) return;
 
-        util.stackFrame.i ??= 0
+        util.stackFrame.i ??= 0;
 
         if (util.stackFrame.i < Number(args.COUNT)) {
-            util.stackFrame.i++
+            util.stackFrame.i++;
 
-            util.startBranch(1, true)
-            util.yieldTick()
+            util.startBranch(1, true);
+            util.yieldTick();
         }
     }
 }
 
-module.exports = RobotConditionsBlocks
+module.exports = RobotConditionsBlocks;

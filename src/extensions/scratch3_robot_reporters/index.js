@@ -1,13 +1,13 @@
-const BlockType = require('../../extension-support/block-type')
+const BlockType = require('../../extension-support/block-type');
 
 class RobotReportsBlocks {
 
     static get EXTENSION_ID () {
-        return 'Reporter'
+        return 'Reporter';
     }
 
     constructor (runtime) {
-        this.runtime = runtime
+        this.runtime = runtime;
     }
 
     getInfo () {
@@ -41,69 +41,69 @@ class RobotReportsBlocks {
                     text: 'Get random namber'
                 }
             ]
-        }
+        };
     }
 
     get_distance_to_obstacle (args) {
         return new Promise(resolve => {
             this.runtime.once('GET_DISTANCE', val => {
-                resolve(val)
-            })
+                resolve(val);
+            });
 
-            this.runtime.emit('GET_DISTANCE_TO_OBSTACLE', args.CHOICE)
-        })
+            this.runtime.emit('GET_DISTANCE_TO_OBSTACLE', args.CHOICE);
+        });
     }
 
     get_pitch () {
         return new Promise(resolve => {
             this.runtime.once('GET_PITCH', val => {
-                resolve(val === true)
-            })
+                resolve(val === true);
+            });
 
-            this.runtime.emit('GET_PITCH_DEVIATION')
-        })
+            this.runtime.emit('GET_PITCH_DEVIATION');
+        });
     }
 
     get_roll () {
         return new Promise(resolve => {
             this.runtime.once('GET_ROLL', val => {
-                resolve(val === true)
-            })
+                resolve(val === true);
+            });
 
-            this.runtime.emit('GET_ROLL_DEVIATION')
-        })
+            this.runtime.emit('GET_ROLL_DEVIATION');
+        });
     }
 
     get_yaw () {
         return new Promise(resolve => {
             this.runtime.once('GET_YAW', val => {
-                resolve(val === true)
-            })
+                resolve(val === true);
+            });
 
-            this.runtime.emit('GET_YAW_DEVIATION')
-        })
+            this.runtime.emit('GET_YAW_DEVIATION');
+        });
     }
 
     get_random_number (args) {
-        const rangeNumbers = JSON.parse(args.RANGE_SETTINGS)
+        const rangeNumbers = JSON.parse(args.RANGE_SETTINGS);
 
-        let max = Number(rangeNumbers[0])
-        let min = Number(rangeNumbers[1])
+        let max = Number(rangeNumbers[0]);
+        let min = Number(rangeNumbers[1]);
 
         if (rangeNumbers[0] > rangeNumbers[1]) {
-            max = Number(rangeNumbers[0])
-            min = Number(rangeNumbers[1])
+            max = Number(rangeNumbers[0]);
+            min = Number(rangeNumbers[1]);
         } else {
-            max = Number(rangeNumbers[1])
-            min = Number(rangeNumbers[0])
+            max = Number(rangeNumbers[1]);
+            min = Number(rangeNumbers[0]);
         }
 
-        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
         return new Promise(resolve => {
-            resolve(randomNumber)
-        })
+            resolve(randomNumber);
+        });
     }
 }
 
-module.exports = RobotReportsBlocks
+module.exports = RobotReportsBlocks;
