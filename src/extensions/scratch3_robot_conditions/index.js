@@ -1,17 +1,15 @@
-const { name } = require('file-loader');
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
-
 
 class RobotConditionsBlocks {
 
     static get EXTENSION_ID () {
         return 'Conditions';
-    };
+    }
 
     constructor (runtime) {
         this.runtime = runtime;
-    };
+    }
 
     getInfo () {
         return {
@@ -26,12 +24,12 @@ class RobotConditionsBlocks {
                     arguments: {
                         CONDITION: {
                             type: ArgumentType.BOOLEAN
-                        },
+                        }
                     }
                 }
             ]
         };
-    };
+    }
 
     fulfillment_wait (args, util) {
         if (args.CONDITION === false || args.CONDITION === 'false') {
@@ -46,8 +44,8 @@ class RobotConditionsBlocks {
             } else if (!util.stackTimerFinished()) {
                 util.yield();
             }
-        };
-    };
-};
+        }
+    }
+}
 
 module.exports = RobotConditionsBlocks;

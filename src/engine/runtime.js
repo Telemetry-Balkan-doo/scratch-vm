@@ -2517,13 +2517,13 @@ class Runtime extends EventEmitter {
      * @param {boolean} isGlowing True to turn on glow; false to turn off.
      */
     glowBlock (blockId, isGlowing) {
-        if ( blockId != null) {
-            this.currentBlockId = blockId
+        if (blockId !== null) {
+            this.currentBlockId = blockId;
         }
         if (isGlowing) {
-            this.emit(Runtime.BLOCK_GLOW_ON, {id:  this.currentBlockId});
+            this.emit(Runtime.BLOCK_GLOW_ON, {id: this.currentBlockId});
         } else {
-            this.emit(Runtime.BLOCK_GLOW_OFF, {id:  this.currentBlockId});
+            this.emit(Runtime.BLOCK_GLOW_OFF, {id: this.currentBlockId});
         }
     }
 
