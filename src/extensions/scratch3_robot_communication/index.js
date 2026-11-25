@@ -1,4 +1,3 @@
-const { name } = require('file-loader');
 const BlockType = require('../../extension-support/block-type');
 
 
@@ -6,11 +5,11 @@ class RobotcommunicationBlocks {
 
     static get EXTENSION_ID () {
         return 'Communication';
-    };
+    }
 
     constructor (runtime) {
         this.runtime = runtime;
-    };
+    }
 
     getInfo () {
         return {
@@ -38,15 +37,15 @@ class RobotcommunicationBlocks {
                 }
             ]
         };
-    };
+    }
 
-    event_whenbroadcastreceived(args, util) {
-        return true;
-    };
+    event_whenbroadcastreceived() {
+        return true
+    }
 
     event_broadcast(args, util) {
         util.runtime.startHats('Communication_event_whenbroadcastreceived', {CHOICE: args.CHOICE});
-    };
-};
+    }
+}
 
 module.exports = RobotcommunicationBlocks;

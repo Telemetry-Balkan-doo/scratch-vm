@@ -30,7 +30,7 @@ const builtinExtensions = {
     robot_loops: () => require('../extensions/scratch3_robot_loops'),
     robot_conditions: () => require('../extensions/scratch3_robot_conditions'),
     robot_movement: () => require('../extensions/scratch3_robot_movement'),
-    robot_reporters: () => require('../extensions/scratch3_robot_reporters'),
+    robot_reporters: () => require('../extensions/scratch3_robot_reporters')
 };
 
 /**
