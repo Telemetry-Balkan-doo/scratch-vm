@@ -32,18 +32,24 @@ class RobotConditionsBlocks {
     }
 
     fulfillment_wait (args, util) {
-        if (args.CONDITION === false || args.CONDITION === 'false') {
+        // as a condition
+        if (args.CONDITION === true || String(args.CONDITION).trim() === 'true' 
+            || Number.isNaN(Number(args.CONDITION)) || Number(args.CONDITION) < 0) return
+        if (args.CONDITION === false || String(args.CONDITION).trim() === 'false' 
+            || String(args.CONDITION).trim() === '') {
+            
             util.yieldTick();
-        } else {
-            const value = Number(args.CONDITION);
-            if (util.stackTimerNeedsInit()) {
-                const duration = Math.max(0, 1000 * Number(value));
-                util.startStackTimer(duration);
-                this.runtime.requestRedraw();
-                util.yield();
-            } else if (!util.stackTimerFinished()) {
-                util.yield();
-            }
+            return
+        }
+
+        // as a timer
+        if (Number(args.CONDITION) === 0) return;
+        if (util.stackFrame.start === undefined) {
+            util.stackFrame.start = Date.now();
+            util.yield();
+
+        } else if (Date.now() - util.stackFrame.start < 1000 * Number(args.CONDITION)) {
+            util.yield();
         }
     }
 }
