@@ -33,10 +33,10 @@ class RobotConditionsBlocks {
 
     fulfillment_wait (args, util) {
         // as a condition
-        if (args.CONDITION === true || String(args.CONDITION).trim() === 'true' 
-        || Number(args.CONDITION) < 0) return;
-        if (args.CONDITION === false || String(args.CONDITION).trim() === 'false' 
-        || String(args.CONDITION).trim() === '') {
+        if (args.CONDITION === true || String(args.CONDITION).trim() === 'true' ||
+        Number(args.CONDITION) < 0) return;
+        if (args.CONDITION === false || String(args.CONDITION).trim() === 'false' ||
+        String(args.CONDITION).trim() === '') {
             
             util.yieldTick();
             return;
