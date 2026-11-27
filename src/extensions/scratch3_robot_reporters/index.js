@@ -84,7 +84,10 @@ class RobotReportsBlocks {
         });
     }
 
-    get_random_number (args) {
+    get_random_number (args, util) {
+        const executor = util.target.blocks.getBlock(util.thread.peekStack());
+        const opcode = executor.opcode;
+        const cacheKey = 'random_' + args.RANGE_SETTINGS;
         const rangeNumbers = JSON.parse(args.RANGE_SETTINGS);
 
         let max = Number(rangeNumbers[0]);
@@ -100,6 +103,12 @@ class RobotReportsBlocks {
 
         const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
+        if (opcode === 'Conditions_fulfillment_wait' || opcode === 'Loop_count') {
+            if (util.stackFrame[cacheKey] === undefined) {
+                util.stackFrame[cacheKey] = randomNumber;
+            }
+            return util.stackFrame[cacheKey];
+        }
         return new Promise(resolve => {
             resolve(randomNumber);
         });
