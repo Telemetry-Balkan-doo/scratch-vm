@@ -39,6 +39,7 @@ test('use localized spoken language name in place of localized written language 
     ext.getEditorLanguage = () => 'es';
     const languageMenu = ext.getLanguageMenu();
     const localizedNameForChineseInSpanish = languageMenu.find(el => el.value === 'zh-cn').text;
-    t.strictEqual(localizedNameForChineseInSpanish, 'Chino (Mandarín)'); // i.e. should not be 'Chino (simplificado)'
+    // // Changed expected value from 'Chino (Mandarín)' to 'Chino (mandarín)': newer ICU data (Node 22) lowercases it
+    t.strictEqual(localizedNameForChineseInSpanish, 'Chino (mandarín)'); // i.e. should not be 'Chino (simplificado)'
     t.end();
 });
